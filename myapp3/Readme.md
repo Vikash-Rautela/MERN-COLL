@@ -1,0 +1,1 @@
+This Repository basically shows the sign-in system in which we used cookies to store the token (JWT token) to authorize the user for further processes.
