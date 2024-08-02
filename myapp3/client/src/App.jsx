@@ -1,26 +1,29 @@
-import React, { useEffect } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
+import React, { useContext } from 'react';
+import { Route, Routes, Navigate } from 'react-router-dom';
+import { AuthContext } from './context/AuthProvider';
 import LoginForm from './components/LoginForm';
-import Dashboard from './components/Dashboard';
+import Home from './components/Home';
+import NavBar from './components/NavBar';
+import About from './components/About';
+import Contact from './components/Contact';
+import Signup from './components/Signup';
+import Admin from './components/Admin';
 
 const App = () => {
-    const navigate = useNavigate();
-    const token = Cookies.get('token');
-
-    useEffect(() => {
-        if (token) {
-            navigate('/');
-        } else {
-            navigate('/login');
-        }
-    }, [token]);
+    const { token } = useContext(AuthContext);
 
     return (
-        <Routes>
-            <Route path="/login" element={<LoginForm />} />
-            <Route path="/" element={<Dashboard />} />
-        </Routes>
+        <>
+            <NavBar />
+            <Routes>
+                <Route path="/login" element={!token ? <LoginForm /> : <Navigate to={"/"} />} />
+                <Route path="/" element={<Home />} />
+                <Route path="/admin" element={token ? <Admin /> : <Navigate to={"/login"} />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/signup" element={!token ? <Signup /> : <Navigate to={"/"} />} />
+            </Routes>
+        </>
     );
 };
 
