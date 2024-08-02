@@ -56,17 +56,6 @@ const AuthProvider = ({ children }) => {
             });
             if (response.ok) {
                 const resData = await response.json();
-                setUser(resData.user);
-                setToken(resData.token);
-
-                Cookies.set('user', JSON.stringify(resData.user), {
-                    expires: 1,
-                });
-
-                Cookies.set('token', resData.token, {
-                    expires: 1,
-                });
-
                 return resData;
             } else {
                 console.error("Login error:", response.statusText);
