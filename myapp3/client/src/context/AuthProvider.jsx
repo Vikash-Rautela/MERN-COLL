@@ -29,7 +29,7 @@ const AuthProvider = ({ children }) => {
                 const resData = await response.json();
                 return resData;
             } else {
-                console.error("Registration error:", response.statusText);
+                console.error("Registration error:");
             }
         } catch (error) {
             console.error("Registration error:", error.message);
@@ -58,7 +58,7 @@ const AuthProvider = ({ children }) => {
 
                 return resData;
             } else {
-                console.error("Login error:", response.statusText);
+                console.error("Login error:");
             }
         } catch (error) {
             console.error("Login error:", error.message);
