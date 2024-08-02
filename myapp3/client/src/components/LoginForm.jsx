@@ -1,32 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
+import { AuthContext } from '../context/AuthProvider'; 
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const { login } = useContext(AuthContext); 
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const url = "http://localhost:4000/auth/signin";
-
         try {
-            const response = await fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ email, password }),
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                Cookies.set('token', data.token);
+            const data = await login({ email, password }); 
+            if (data) {
                 navigate('/');
             }
-
         } catch (error) {
             console.error("Error:", error.message);
         }
@@ -38,7 +27,7 @@ const LoginForm = () => {
                 <div className="col-md-6">
                     <div className="card">
                         <div className="card-body">
-                            <form id="registrationForm" onSubmit={handleSubmit}>
+                            <form id="loginForm" onSubmit={handleSubmit}>
                                 <div className="form-group">
                                     <label htmlFor="email">Email</label>
                                     <input
